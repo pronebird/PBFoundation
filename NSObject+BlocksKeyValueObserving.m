@@ -29,13 +29,13 @@
 		self.context = context;
 		self.block = block;
 		
-		DDLogDebug(@"-> PBKeyValueBlockObserver, keyPath = %@", keyPath);
+		NSLog(@"-> PBKeyValueBlockObserver, keyPath = %@", keyPath);
 	}
 	return self;
 }
 
 - (void)dealloc {
-	DDLogDebug(@"<- PBKeyValueBlockObserver, keyPath = %@", self.keyPath);
+	NSLog(@"<- PBKeyValueBlockObserver, keyPath = %@", self.keyPath);
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
