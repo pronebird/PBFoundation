@@ -9,7 +9,7 @@
 #import "UIGestureRecognizer+Blocks.h"
 #import <objc/runtime.h>
 
-const void* kPBGestureRecognizerBlockKey = &kPBGestureRecognizerBlockKey;
+static const void* kPBGestureRecognizerBlockKey = &kPBGestureRecognizerBlockKey;
 
 #pragma mark - UIGestureRecognizer+Blocks internals
 

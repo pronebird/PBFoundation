@@ -39,7 +39,7 @@
 
 #pragma mark - UIControl+Blocks internals
 
-const void* kPBControlTargetArrayKey = &kPBControlTargetArrayKey;
+static const void* kPBControlTargetArrayKey = &kPBControlTargetArrayKey;
 
 @implementation UIControl (BlocksInternal)
 
