@@ -27,13 +27,13 @@ static const void* kBlocksDelegateKey = &kBlocksDelegateKey;
 
 - (id)init {
 	if(self = [super init]) {
-		DDLogDebug(@"%s", __PRETTY_FUNCTION__);
+		NSLog(@"%s", __PRETTY_FUNCTION__);
 	}
 	return self;
 }
 
 - (void)dealloc {
-	DDLogDebug(@"%s", __PRETTY_FUNCTION__);
+	NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
