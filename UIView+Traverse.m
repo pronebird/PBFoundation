@@ -10,13 +10,28 @@
 
 @implementation UIView (Traverse)
 
-- (UIView*)findViewWithSuffix:(NSString*)suffix {
+- (UIView*)findViewWithClassPrefix:(NSString*)prefix {
+	for(UIView* view in self.subviews) {
+		if([NSStringFromClass([view class]) hasPrefix:prefix]) {
+			return view;
+		}
+		
+		UIView* child = [view findViewWithClassPrefix:prefix];
+		if(child != nil) {
+			return child;
+		}
+	}
+	
+	return nil;
+}
+
+- (UIView*)findViewWithClassSuffix:(NSString*)suffix {
 	for(UIView* view in self.subviews) {
 		if([NSStringFromClass([view class]) hasSuffix:suffix]) {
 			return view;
 		}
 		
-		UIView* child = [view findViewWithSuffix:suffix];
+		UIView* child = [view findViewWithClassSuffix:suffix];
 		if(child != nil) {
 			return child;
 		}

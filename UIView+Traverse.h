@@ -11,13 +11,22 @@
 @interface UIView (Traverse)
 
 /**
+ *  Find views matching class name prefix
+ *
+ *  @param prefix a prefix to match against
+ *
+ *  @return an UIView instance
+ */
+- (UIView*)findViewWithClassPrefix:(NSString*)prefix;
+
+/**
  *  Find views matching class name suffix
  *
  *  @param suffix a suffix to match against
  *
  *  @return an UIView instance
  */
-- (UIView*)findViewWithSuffix:(NSString*)suffix;
+- (UIView*)findViewWithClassSuffix:(NSString*)suffix;
 
 /**
  *  Find views matching class
