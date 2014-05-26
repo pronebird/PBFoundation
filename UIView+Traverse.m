@@ -10,13 +10,17 @@
 
 @implementation UIView (Traverse)
 
-- (UIView*)findViewWithClassPrefix:(NSString*)prefix {
+- (UIView*)findFirstViewWithClassPrefix:(NSString*)prefix {
+	// First pass: check on current level
 	for(UIView* view in self.subviews) {
 		if([NSStringFromClass([view class]) hasPrefix:prefix]) {
 			return view;
 		}
-		
-		UIView* child = [view findViewWithClassPrefix:prefix];
+	}
+	
+	// Second pass: go deeper
+	for(UIView* view in self.subviews) {
+		UIView* child = [view findFirstViewWithClassPrefix:prefix];
 		if(child != nil) {
 			return child;
 		}
@@ -25,13 +29,17 @@
 	return nil;
 }
 
-- (UIView*)findViewWithClassSuffix:(NSString*)suffix {
+- (UIView*)findFirstViewWithClassSuffix:(NSString*)suffix {
+	// First pass: check on current level
 	for(UIView* view in self.subviews) {
 		if([NSStringFromClass([view class]) hasSuffix:suffix]) {
 			return view;
 		}
-		
-		UIView* child = [view findViewWithClassSuffix:suffix];
+	}
+	
+	// Second pass: go deeper
+	for(UIView* view in self.subviews) {
+		UIView* child = [view findFirstViewWithClassSuffix:suffix];
 		if(child != nil) {
 			return child;
 		}
@@ -40,7 +48,31 @@
 	return nil;
 }
 
-- (NSArray*)findViewsMatchingClass:(Class)aClass depth:(NSUInteger)depth {
+- (UIView*)findFirstViewMatchingClass:(Class)aClass depth:(NSUInteger)depth {
+	if(depth > 1) { depth--; }
+	
+	// First pass: check if view exists on current level
+	for(UIView* view in self.subviews) {
+		if([view isKindOfClass:aClass]) {
+			return view;
+		}
+		
+	}
+	
+	// Second pass: go deeper
+	if(depth > 1 || depth == 0) {
+		for(UIView* view in self.subviews) {
+			UIView* child = [view findFirstViewMatchingClass:aClass depth:depth];
+			if(child) {
+				return child;
+			}
+		}
+	}
+	
+	return nil;
+}
+
+- (NSArray*)findAllViewsMatchingClass:(Class)aClass depth:(NSUInteger)depth {
 	NSMutableArray* views = [NSMutableArray new];
 	
 	if(depth > 1) { depth--; }
@@ -52,7 +84,7 @@
 		}
 		
 		if(depth > 1 || depth == 0) {
-			[views addObjectsFromArray:[view findViewsMatchingClass:aClass depth:depth]];
+			[views addObjectsFromArray:[view findAllViewsMatchingClass:aClass depth:depth]];
 		}
 	}
 	

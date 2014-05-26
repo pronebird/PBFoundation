@@ -11,22 +11,32 @@
 @interface UIView (Traverse)
 
 /**
- *  Find views matching class name prefix
+ *  Find first view matching class name prefix
  *
  *  @param prefix a prefix to match against
  *
  *  @return an UIView instance
  */
-- (UIView*)findViewWithClassPrefix:(NSString*)prefix;
+- (UIView*)findFirstViewWithClassPrefix:(NSString*)prefix;
 
 /**
- *  Find views matching class name suffix
+ *  Find first view matching class name suffix
  *
  *  @param suffix a suffix to match against
  *
  *  @return an UIView instance
  */
-- (UIView*)findViewWithClassSuffix:(NSString*)suffix;
+- (UIView*)findFirstViewWithClassSuffix:(NSString*)suffix;
+
+/**
+ *  Find first view matching class
+ *
+ *  @param aClass a Class object to match against
+ *  @param depth  a maximum depth of traverse. Pass 0 for unlimited.
+ *
+ *  @return an instance of UIView, otherwise nil
+ */
+- (UIView*)findFirstViewMatchingClass:(Class)aClass depth:(NSUInteger)depth;
 
 /**
  *  Find views matching class
@@ -36,6 +46,6 @@
  *
  *  @return an array of UIView instances
  */
-- (NSArray*)findViewsMatchingClass:(Class)aClass depth:(NSUInteger)depth;
+- (NSArray*)findAllViewsMatchingClass:(Class)aClass depth:(NSUInteger)depth;
 
 @end
