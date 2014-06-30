@@ -104,19 +104,15 @@ static const void* kPBAlertViewBlocksDelegateKey = &kPBAlertViewBlocksDelegateKe
 }
 
 + (id)alertViewWithTitle:(NSString*)title message:(NSString*)message {
-	return [[self alloc] initWithTitle:title message:message];
+	return [[self alloc] initWithTitle:title message:message cancelButtonTitle:nil];
 }
 
 + (id)alertViewWithTitle:(NSString*)title message:(NSString*)message cancelButtonTitle:(NSString*)cancelButtonTitle {
-	typeof(self) __strong instance = [[self alloc] initWithTitle:title message:message];
-	if(instance != nil) {
-		[instance addCancelButtonWithTitle:cancelButtonTitle block:nil];
-	}
-	return instance;
+	return [[self alloc] initWithTitle:title message:message cancelButtonTitle:cancelButtonTitle];
 }
 
-- (id)initWithTitle:(NSString*)title message:(NSString*)message {
-	return [self initWithTitle:title message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
+- (id)initWithTitle:(NSString*)title message:(NSString*)message cancelButtonTitle:(NSString*)cancelButtonTitle {
+	return [self initWithTitle:title message:message delegate:nil cancelButtonTitle:cancelButtonTitle otherButtonTitles:nil];
 }
 
 - (id)pb_initWithTitle:(NSString *)title message:(NSString *)message delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... {

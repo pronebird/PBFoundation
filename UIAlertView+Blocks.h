@@ -44,12 +44,13 @@
 /**
  *  Alternative initialzer for UIAlertView
  *
- *  @param title   a title
- *  @param message a message
+ *  @param title             a title
+ *  @param message           a message
+ *  @param cancelButtonTitle a cancel button title
  *
  *  @return an instance of UIAlertView or nil
  */
-- (id)initWithTitle:(NSString*)title message:(NSString*)message;
+- (id)initWithTitle:(NSString*)title message:(NSString*)message cancelButtonTitle:(NSString*)cancelButtonTitle;
 
 /**
  *  Add button with block handler
