@@ -123,11 +123,9 @@ static const void* kPBAlertViewBlocksDelegateKey = &kPBAlertViewBlocksDelegateKe
 	PBAlertViewBlocksDelegate* blocksDelegate = [PBAlertViewBlocksDelegate new];
 	blocksDelegate.realDelegate = delegate;
 	
-	typeof(self) instance = [self pb_initWithTitle:title message:message delegate:blocksDelegate cancelButtonTitle:nil otherButtonTitles:nil];
+	typeof(self) instance = [self pb_initWithTitle:title message:message delegate:blocksDelegate cancelButtonTitle:cancelButtonTitle otherButtonTitles:nil];
 
 	if(instance) {
-		[self pb_setAlertViewBlocksDelegate:blocksDelegate];
-		
 		if(otherButtonTitles) {
 			va_list args;
 			va_start(args, otherButtonTitles);
@@ -137,9 +135,7 @@ static const void* kPBAlertViewBlocksDelegateKey = &kPBAlertViewBlocksDelegateKe
 			va_end(args);
 		}
 		
-		if(cancelButtonTitle) {
-			[instance addCancelButtonWithTitle:cancelButtonTitle block:nil];
-		}
+		[instance pb_setAlertViewBlocksDelegate:blocksDelegate];
 	}
 	
 	return instance;
