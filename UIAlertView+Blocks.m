@@ -119,13 +119,18 @@ static const void* kPBAlertViewBlocksDelegateKey = &kPBAlertViewBlocksDelegateKe
 	PBAlertViewBlocksDelegate* blocksDelegate = [PBAlertViewBlocksDelegate new];
 	blocksDelegate.realDelegate = delegate;
 	
-	typeof(self) instance = [self pb_initWithTitle:title message:message delegate:blocksDelegate cancelButtonTitle:cancelButtonTitle otherButtonTitles:nil];
+	// Pass first button title to trick UIAlertView to setup firstOtherButtonIndex
+	// The rest of buttons will be added later
+	typeof(self) instance = [self pb_initWithTitle:title message:message delegate:blocksDelegate cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles, nil];
 
 	if(instance) {
 		if(otherButtonTitles) {
 			va_list args;
 			va_start(args, otherButtonTitles);
-			for(NSString* arg = otherButtonTitles; arg != nil; arg = va_arg(args, NSString*)) {
+			NSString* arg;
+
+			// First button title is already passed to initializer, we start from second
+			while((arg = va_arg(args, NSString*)) != nil) {
 				[instance addButtonWithTitle:arg];
 			}
 			va_end(args);
