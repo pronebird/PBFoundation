@@ -10,7 +10,7 @@
 
 @implementation NSObject (Blocks)
 
-- (void)performBlock:(void(^)(void))block afterDelay:(NSTimeInterval)delayInSeconds {
+- (void)performAfterDelay:(NSTimeInterval)delayInSeconds block:(void(^)(void))block {
 	NSParameterAssert(block != nil);
 	
 	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
