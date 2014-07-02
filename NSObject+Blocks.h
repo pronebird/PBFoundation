@@ -13,9 +13,9 @@
 /**
  *  Perform block after delay
  *
- *  @param block          a block to perform
  *  @param delayInSeconds a delay in seconds
+ *  @param block          a block to perform
  */
-- (void)performBlock:(void(^)(void))block afterDelay:(NSTimeInterval)delayInSeconds;
+- (void)performAfterDelay:(NSTimeInterval)delayInSeconds block:(void(^)(void))block;
 
 @end
