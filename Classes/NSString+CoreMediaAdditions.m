@@ -13,9 +13,9 @@
 + (NSString*)stringWithCMTime:(CMTime)time {
 	long totalSeconds = (long)CMTimeGetSeconds(time);
 	
-	long hours = floor(totalSeconds / 3600);
-	long minutes = floor(totalSeconds % 3600 / 60);
-	long seconds = floor(totalSeconds % 3600 % 60);
+	long hours = totalSeconds / 3600;
+	long minutes = totalSeconds % 3600 / 60;
+	long seconds = totalSeconds % 3600 % 60;
 	
 	if(hours > 0) {
 		return [NSString stringWithFormat:@"%ld:%02ld:%02ld", hours, minutes, seconds];
