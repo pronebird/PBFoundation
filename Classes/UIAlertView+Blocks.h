@@ -57,15 +57,34 @@
  *
  *  @param title a button title
  *  @param block a handler block
+ *
+ *  @return an index of added button
  */
-- (void)addButtonWithTitle:(NSString*)title block:(void(^)(void))block;
+- (NSInteger)addButtonWithTitle:(NSString*)title block:(void(^)(void))block;
 
 /**
  *  Add cancel button with block handler
  *
  *  @param title a button title
  *  @param block a handler block
+ *
+ *  @return an index of added button
  */
-- (void)addCancelButtonWithTitle:(NSString*)title block:(void(^)(void))block;
+- (NSInteger)addCancelButtonWithTitle:(NSString*)title block:(void(^)(void))block;
+
+/**
+ *  Set block handler for button with index
+ *
+ *  @param block a handler block
+ *  @param buttonIndex an button index
+ */
+- (void)setBlock:(void(^)(void))block forButtonAtIndex:(NSInteger)buttonIndex;
+
+/**
+ *  Set block for alertViewShouldEnableFirstOtherButton: delegate method
+ *
+ *  @param block a block handler
+ */
+- (void)setShouldEnableFirstOtherButtonBlock:(BOOL(^)(UIAlertView* alertView))block;
 
 @end

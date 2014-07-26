@@ -18,6 +18,8 @@ static const void* kPBAlertViewBlocksDelegateKey = &kPBAlertViewBlocksDelegateKe
 
 @property (weak) id realDelegate;
 
+@property (strong) BOOL(^shouldEnableFirstOtherButtonBlock)(UIAlertView* alertView);
+
 - (void)setBlock:(void(^)(void))block forButtonAtIndex:(NSInteger)index;
 - (id)blockForButtonAtIndex:(NSInteger)index;
 
@@ -25,6 +27,7 @@ static const void* kPBAlertViewBlocksDelegateKey = &kPBAlertViewBlocksDelegateKe
 
 @implementation PBAlertViewBlocksDelegate {
 	NSMutableDictionary* _buttonBlocks;
+	BOOL(^_shouldEnableFirstOtherButtonBlock)(UIAlertView* alertView);
 }
 
 - (id)init {
@@ -35,7 +38,7 @@ static const void* kPBAlertViewBlocksDelegateKey = &kPBAlertViewBlocksDelegateKe
 }
 
 - (void)setBlock:(void(^)(void))block forButtonAtIndex:(NSInteger)index {
-	if(block != nil) {
+	if(block) {
 		_buttonBlocks[@(index)] = block;
 	}
 }
@@ -46,7 +49,7 @@ static const void* kPBAlertViewBlocksDelegateKey = &kPBAlertViewBlocksDelegateKe
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	void(^block)(void) = [self blockForButtonAtIndex:buttonIndex];
-	if(block != nil) {
+	if(block) {
 		block();
 	}
 	
@@ -54,6 +57,19 @@ static const void* kPBAlertViewBlocksDelegateKey = &kPBAlertViewBlocksDelegateKe
 	if([self.realDelegate respondsToSelector:@selector(alertView:clickedButtonAtIndex:)]) {
 		[self.realDelegate alertView:alertView clickedButtonAtIndex:buttonIndex];
 	}
+}
+
+// Called after edits in any of the default fields added by the style
+- (BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView {
+	if(self.shouldEnableFirstOtherButtonBlock) {
+		return self.shouldEnableFirstOtherButtonBlock(alertView);
+	}
+	
+	// delegate event to realDelegate
+	if([self.realDelegate respondsToSelector:@selector(alertViewShouldEnableFirstOtherButton:)]) {
+		return [self.realDelegate alertViewShouldEnableFirstOtherButton:alertView];
+	}
+	return YES;
 }
 
 - (BOOL)respondsToSelector:(SEL)aSelector {
@@ -130,7 +146,7 @@ static const void* kPBAlertViewBlocksDelegateKey = &kPBAlertViewBlocksDelegateKe
 			NSString* arg;
 
 			// First button title is already passed to initializer, we start from second
-			while((arg = va_arg(args, NSString*)) != nil) {
+			while((arg = va_arg(args, NSString*))) {
 				[instance addButtonWithTitle:arg];
 			}
 			va_end(args);
@@ -142,15 +158,27 @@ static const void* kPBAlertViewBlocksDelegateKey = &kPBAlertViewBlocksDelegateKe
 	return instance;
 }
 
-- (void)addButtonWithTitle:(NSString*)title block:(void(^)(void))block {
+- (NSInteger)addButtonWithTitle:(NSString*)title block:(void(^)(void))block {
 	NSInteger index = [self addButtonWithTitle:title];
 	[[self pb_alertViewBlocksDelegate] setBlock:block forButtonAtIndex:index];
+	
+	return index;
 }
 
-- (void)addCancelButtonWithTitle:(NSString*)title block:(void(^)(void))block {
+- (NSInteger)addCancelButtonWithTitle:(NSString*)title block:(void(^)(void))block {
 	NSInteger index = [self addButtonWithTitle:title];
 	[[self pb_alertViewBlocksDelegate] setBlock:block forButtonAtIndex:index];
 	[self setCancelButtonIndex:index];
+	
+	return index;
+}
+
+- (void)setBlock:(void(^)(void))block forButtonAtIndex:(NSInteger)buttonIndex {
+	[[self pb_alertViewBlocksDelegate] setBlock:block forButtonAtIndex:buttonIndex];
+}
+
+- (void)setShouldEnableFirstOtherButtonBlock:(BOOL(^)(UIAlertView* alertView))block {
+	[[self pb_alertViewBlocksDelegate] setShouldEnableFirstOtherButtonBlock:block];
 }
 
 @end
