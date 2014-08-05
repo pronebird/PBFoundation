@@ -29,7 +29,7 @@ static const void* kBatchUpdateBlocksKey = &kBatchUpdateBlocksKey;
 }
 
 - (void)pb_addBatchUpdateBlock:(void(^)(void))block {
-	[[self pb_batchUpdateBlocks] addObject:block];
+	[[self pb_batchUpdateBlocks] addObject:[block copy]];
 }
 
 - (void)pb_removeAllBatchUpdateBlocks {

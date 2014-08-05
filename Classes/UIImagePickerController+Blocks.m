@@ -80,11 +80,6 @@ static const void* kBlocksDelegateKey = &kBlocksDelegateKey;
 
 @implementation UIImagePickerController (Blocks)
 
-@dynamic didFinishPickingMediaWithInfoBlock;
-@dynamic didCancelBlock;
-@dynamic willShowViewControllerBlock;
-@dynamic didShowViewControllerBlock;
-
 + (void)load {
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{

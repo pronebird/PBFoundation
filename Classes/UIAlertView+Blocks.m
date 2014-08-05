@@ -39,7 +39,9 @@ static const void* kPBAlertViewBlocksDelegateKey = &kPBAlertViewBlocksDelegateKe
 
 - (void)setBlock:(void(^)(void))block forButtonAtIndex:(NSInteger)index {
 	if(block) {
-		_buttonBlocks[@(index)] = block;
+		_buttonBlocks[@(index)] = [block copy];
+	} else {
+		[_buttonBlocks removeObjectForKey:@(index)];
 	}
 }
 
