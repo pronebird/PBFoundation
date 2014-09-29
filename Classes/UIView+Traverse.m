@@ -91,4 +91,23 @@
 	return views;
 }
 
+- (NSArray*)findAllViewsMatchingClassSuffix:(NSString*)suffix depth:(NSUInteger)depth {
+	NSMutableArray* views = [NSMutableArray new];
+	
+	if(depth > 1) { depth--; }
+	
+	for(UIView* view in self.subviews) {
+		if([NSStringFromClass([view class]) hasSuffix:suffix]) {
+			[views addObject:view];
+			continue;
+		}
+		
+		if(depth > 1 || depth == 0) {
+			[views addObjectsFromArray:[view findAllViewsMatchingClassSuffix:suffix depth:depth]];
+		}
+	}
+	
+	return views;
+}
+
 @end

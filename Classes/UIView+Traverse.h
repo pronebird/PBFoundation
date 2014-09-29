@@ -48,4 +48,14 @@
  */
 - (NSArray*)findAllViewsMatchingClass:(Class)aClass depth:(NSUInteger)depth;
 
+/**
+ *  Find views matching class name suffix
+ *
+ *  @param suffix a suffix to match against
+ *  @param depth  a maximum depth of traverse. Pass 0 for unlimited.
+ *
+ *  @return an array of UIView instances
+ */
+- (NSArray*)findAllViewsMatchingClassSuffix:(NSString*)suffix depth:(NSUInteger)depth;
+
 @end
